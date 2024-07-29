@@ -1,5 +1,5 @@
 import { useOthers } from '@liveblocks/react/suspense'
-import Image from 'next/image';
+import Image from 'next/image'
 import React from 'react'
 
 const ActiveCollaborators = () => {
@@ -16,7 +16,7 @@ const ActiveCollaborators = () => {
                     width={100}
                     height={100}
                     alt={name}
-                    className='niline-block size-8 rounded-full ring-2 ring-dark-100'
+                    className='iniline-block size-8 rounded-full ring-2 ring-dark-100'
                     style={{border:`3px solid ${color}`}}
                 />
            </li>

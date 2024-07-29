@@ -5,9 +5,9 @@ import Header from '@/components/Header'
 import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/nextjs'
 import { RoomProvider, ClientSideSuspense } from '@liveblocks/react/suspense'
 import ActiveCollaborators from '@/components/ActiveCollaborators'
-const CollaborativeRoom = () => {
+const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata: any}) => {
   return (
-    <RoomProvider id="my-room">
+    <RoomProvider id={ roomId }>
         <ClientSideSuspense fallback={<div>Loading…</div>}>
         <div className='collaborative-room'>
             <Header>

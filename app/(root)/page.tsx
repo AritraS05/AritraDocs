@@ -9,7 +9,7 @@ import Image from 'next/image'
 const Home =async () => {
 
   const clerkUser  = await currentUser();
-  if(!clerkUser) redirect('/signin');
+  if(!clerkUser) redirect('/sign-in');
   const documnents = [];
 
   return (
