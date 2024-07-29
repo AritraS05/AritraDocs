@@ -4,6 +4,7 @@ import React from 'react'
 import Header from '@/components/Header'
 import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/nextjs'
 import { RoomProvider, ClientSideSuspense } from '@liveblocks/react/suspense'
+import ActiveCollaborators from '@/components/ActiveCollaborators'
 const CollaborativeRoom = () => {
   return (
     <RoomProvider id="my-room">
@@ -13,12 +14,15 @@ const CollaborativeRoom = () => {
             <div className="flex items-center justify-center gap-2">
                 <p className='document-title'>Share</p>
             </div>
-            <SignedOut>
-                <SignInButton />
-            </SignedOut>
-            <SignedIn>
-                <UserButton />
-            </SignedIn>
+            <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
+                <ActiveCollaborators />
+                <SignedOut>
+                    <SignInButton />
+                </SignedOut>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+            </div>
             </Header>
             <Editor />
           </div>
