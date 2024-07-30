@@ -8,8 +8,8 @@ import ActiveCollaborators from '@/components/ActiveCollaborators'
 import { Input }from './ui/input'
 import Image from 'next/image'
 import { updateDocument } from '@/lib/actions/room.actions'
-const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata: any}) => {
-  const currentUserType = 'editor';
+import Loader from './Loader'
+const CollaborativeRoom = ({roomId,roomMetadata,users,currentUserType} : {roomId: string, roomMetadata: any, users: any, currentUserType: string}) => {
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata
   
   return (
     <RoomProvider id={ roomId }>
-        <ClientSideSuspense fallback={<div>Loading…</div>}>
+        <ClientSideSuspense fallback={<Loader />}>
         <div className='collaborative-room'>
             <Header className='flex'>
             <div ref= {containerRef} className="flex flex-col items-center justify-center gap-2">
@@ -107,7 +107,10 @@ const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata
                 </SignedIn>
             </div>
             </Header>
-            <Editor />
+            <Editor 
+              roomId = {roomId}
+              currentUserType = {currentUserType}
+            />
           </div>
         </ClientSideSuspense>
       </RoomProvider>
