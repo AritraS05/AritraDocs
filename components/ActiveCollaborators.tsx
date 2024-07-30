@@ -20,7 +20,7 @@ const ActiveCollaborators = () => {
                     style={{border:`3px solid ${color}`}}
                 />
            </li>
-        ))};
+        ))}
     </ul>
   )
 }
