@@ -7,6 +7,7 @@ import { RoomProvider, ClientSideSuspense } from '@liveblocks/react/suspense'
 import ActiveCollaborators from '@/components/ActiveCollaborators'
 import { Input }from './ui/input'
 import Image from 'next/image'
+import { updateDocument } from '@/lib/actions/room.actions'
 const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata: any}) => {
   const currentUserType = 'editor';
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
@@ -15,12 +16,16 @@ const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata
 
   const containerRef = useRef<HTMLDivElement>(null);
   const  inputRef = useRef<HTMLDivElement>(null);
-  const updateTitleHandler = (e:  React.KeyboardEvent<HTMLInputElement>) => {
+  const updateTitleHandler = async  (e:  React.KeyboardEvent<HTMLInputElement>) => {
       if(e.key === 'Enter'){
         setLoading(true);
         try {
           if(documentTitle !== roomMetadata.title){
-            //to be done in the room actions
+            const updatedDocument = await updateDocument(roomId,documentTitle);      
+
+            if(updatedDocument){
+              setEditing(false);
+            }
           }
         } catch (error) {
           console.log(error);
@@ -33,14 +38,23 @@ const CollaborativeRoom = ({roomId,roomMetadata} : {roomId: string, roomMetadata
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setEditing(false);
+        updateDocument(roomId,documentTitle);
       }
+
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-  },[]);
+  },[roomId,documentTitle]);
 
+
+  useEffect(() => {
+    if(editing && inputRef.current){
+      inputRef.current.focus();
+    }
+  }, [editing])
+  
   return (
     <RoomProvider id={ roomId }>
         <ClientSideSuspense fallback={<div>Loading…</div>}>
